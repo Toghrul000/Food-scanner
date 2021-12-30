@@ -27,7 +27,6 @@ import com.google.zxing.Result;
 public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    Intent intent = new Intent(this, Activity2.class);
     public static String barcode = "nothing yet";
 
     @Override
@@ -50,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         textView.setText(result.getText());
                         Toast.makeText(MainActivity.this, "Scanned product", Toast.LENGTH_SHORT).show();
                         barcode = result.getText();
-                        intent.putExtra(barcode, barcode);
-                        startActivity(intent);
+                        sendMessage();
 
                     }
                 });
@@ -64,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
 
-
-
-
-
-
+    public void sendMessage(){
+        Intent intent = new Intent(this, Activity2.class);
+        intent.putExtra(barcode, barcode);
+        startActivity(intent);
     }
 
     @Override

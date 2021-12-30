@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
+        TextView textView = findViewById(R.id.tv_textview);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull final Result result) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        //result.getText()
+                        textView.setText(result.getText());
+                        Toast.makeText(MainActivity.this, "Scanned product", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
+
+
 
 
 
@@ -104,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
 
 
 }

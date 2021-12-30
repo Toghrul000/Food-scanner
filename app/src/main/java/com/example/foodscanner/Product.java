@@ -1,5 +1,8 @@
 package com.example.foodscanner;
 
+
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class Product {
+
     private String name;
     private String imageUrl;
     private double sugar;
@@ -63,5 +67,70 @@ public class Product {
         this.energy = energy;
         this.sodium = sodium;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public double getSugar() {
+        return sugar;
+    }
+
+    public void setSugar(double sugar) {
+        this.sugar = sugar;
+    }
+
+    public double getCarbs() {
+        return carbs;
+    }
+
+    public void setCarbs(double carbs) {
+        this.carbs = carbs;
+    }
+
+    public double getFat() {
+        return fat;
+    }
+
+    public void setFat(double fat) {
+        this.fat = fat;
+    }
+
+    public double getSalt() {
+        return salt;
+    }
+
+    public void setSalt(double salt) {
+        this.salt = salt;
+    }
+
+    public double getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(double energy) {
+        this.energy = energy;
+    }
+
+    public double getSodium() {
+        return sodium;
+    }
+
+    public void setSodium(double sodium) {
+        this.sodium = sodium;
+    }
+
 
 }

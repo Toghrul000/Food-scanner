@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.google.zxing.Result;
 public class MainActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private static final int PERMISSION_REQUEST_CODE = 200;
+    Intent intent = new Intent(this, Activity2.class);
+    public static String barcode = "nothing yet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
                         //result.getText()
                         textView.setText(result.getText());
                         Toast.makeText(MainActivity.this, "Scanned product", Toast.LENGTH_SHORT).show();
+                        barcode = result.getText();
+                        intent.putExtra(barcode, barcode);
+                        startActivity(intent);
+
                     }
                 });
             }

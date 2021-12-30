@@ -1,12 +1,8 @@
 package com.example.foodscanner;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -66,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendMessage(){
-        Intent intent = new Intent(this, Activity2.class);
+        Intent intent = new Intent(this, Results.class);
         intent.putExtra(barcode, barcode);
         startActivity(intent);
     }

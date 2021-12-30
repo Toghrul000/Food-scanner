@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodScanner" >
         <activity
-            android:name=".MainActivity"
+            android:name=".HomePage"
 
             android:exported="true" >
             <intent-filter>
@@ -24,7 +24,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity2"
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".HomePage">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomePage" />
+        </activity>
+
+        <activity android:name=".Results"
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.AsyncTaskLoader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,28 +33,41 @@ public class Results extends AppCompatActivity {
     Button search ;
     Button home;
     TextView textView;
+    RecyclerView recyclerView;
 
-    String url = "https://world.openfoodfacts.org/api/v0/product/23073159.json";
 
-    private ProgressDialog progressDialog;
+    String s1[];
+    String s2[];
+    int images[];
+
+    String url = "https://world.openfoodfacts.org/api/v0/product/0000000000.json";
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.barcode);
+        String barcode = intent.getStringExtra(MainActivity.barcode);
+        url = "https://world.openfoodfacts.org/api/v0/product/"+ barcode + ".json";
 
         search = findViewById(R.id.scanA);
         home = findViewById(R.id.home);
 
         textView = findViewById(R.id.textView);
+        recyclerView = findViewById(R.id.recyclerView1);
+
+
+//        s1 = getResources().getStringArray(R.array.nutritionalInfo);
+//        s2 = getResources().getStringArray(R.array.description);
 
         new GetJSONTask().execute(url);
 
+        MyAdapter myAdapter = new MyAdapter(this, s1,s2);
 
-
-
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -90,12 +106,23 @@ public class Results extends AppCompatActivity {
 
         private String name;
         private String imageUrl;
-        private double sugar;
-        private double carbs;
-        private double fat;
-        private double salt;
-        private double energy;
-        private double sodium;
+        private String sugar;
+        private String carbs;
+        private String fat;
+        private String salt;
+        private String energy;
+        private String sodium;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(Results.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
 
 
         @Override
@@ -129,17 +156,33 @@ public class Results extends AppCompatActivity {
 
 
         protected void onPostExecute(JsonObject productJson) {
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
             name = productJson.get("product_name").getAsString();
             imageUrl = productJson.get("image_front_url").getAsString();
             JsonObject nutrients = productJson.getAsJsonObject("nutriments");
-            carbs = nutrients.get("carbohydrates").getAsDouble();
-            sugar = nutrients.get("sugars").getAsDouble();
-            fat = nutrients.get("fat").getAsDouble();
-            salt = nutrients.get("salt").getAsDouble();
-            energy = nutrients.get("energy").getAsDouble();
-            sodium = nutrients.get("sodium").getAsDouble();
+            carbs = nutrients.get("carbohydrates").getAsString();
+            sugar = nutrients.get("sugars").getAsString();
+            fat = nutrients.get("fat").getAsString();
+            salt = nutrients.get("salt").getAsString();
+            energy = nutrients.get("energy").getAsString();
+            sodium = nutrients.get("sodium").getAsString();
 
             textView.setText(name);
+            s1 = new String[8];
+            s2 = new String[8];
+
+
+
+//
+//            s1[0] = carbsI;
+//            s2[0] = sugarI;
+
+
+
+
+
 
 
 

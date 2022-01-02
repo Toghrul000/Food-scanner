@@ -15,12 +15,15 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.List;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    String data1[], data2[], data3[], data4[], data5[], data6[], imageUrls[];
+    List<String> data1, data2, data3, data4, data5, data6, imageUrls;
+
     Context context;
 
-    public MyAdapter(Context ct, String[] s1, String[] s2, String[] s3, String[] s4, String[] s5, String[] s6, String[] urls){
+    public MyAdapter(Context ct, List<String> s1, List<String> s2, List<String> s3, List<String> s4, List<String> s5, List<String> s6, List<String> urls){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -42,19 +45,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.myText1.setText(data1[position]);
-        holder.myText2.setText(data2[position]);
-        holder.myText3.setText(data3[position]);
-        holder.myText4.setText(data4[position]);
-        holder.myText5.setText(data5[position]);
-        holder.myText6.setText(data6[position]);
-        Picasso.with(context).load(imageUrls[position]).into(holder.myImage);
+        holder.myText1.setText(data1.get(position));
+        holder.myText2.setText(data2.get(position));
+        holder.myText3.setText(data3.get(position));
+        holder.myText4.setText(data4.get(position));
+        holder.myText5.setText(data5.get(position));
+        holder.myText6.setText(data6.get(position));
+        Picasso.with(context).load(imageUrls.get(position)).into(holder.myImage);
 
     }
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return data1.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

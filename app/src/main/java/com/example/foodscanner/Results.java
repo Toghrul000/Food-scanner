@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Results extends AppCompatActivity {
 
@@ -34,16 +36,24 @@ public class Results extends AppCompatActivity {
     Button home;
     TextView textView;
     RecyclerView recyclerView;
+    RecyclerView history;
 
+    List<String> s1;
+    List<String> s2;
+    List<String> s3;
+    List<String> s4;
+    List<String> s5;
+    List<String> s6;
+    List<String> images;
 
-    String s1[];
-    String s2[];
-    String s3[];
-    String s4[];
-    String s5[];
-    String s6[];
+    List<String> hs1;
+    List<String> hs2;
+    List<String> hs3;
+    List<String> hs4;
+    List<String> hs5;
+    List<String> hs6;
+    List<String> himages;
 
-    String images[];
 
     String url = "https://world.openfoodfacts.org/api/v0/product/0000000000.json";
 
@@ -62,10 +72,9 @@ public class Results extends AppCompatActivity {
 
         textView = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.recyclerView1);
+        history = findViewById(R.id.history);
 
 
-//        s1 = getResources().getStringArray(R.array.nutritionalInfo);
-//        s2 = getResources().getStringArray(R.array.description);
 
         new GetJSONTask().execute(url);
 
@@ -149,23 +158,52 @@ public class Results extends AppCompatActivity {
 
 
             textView.setText(name);
-            s1 = new String[1];
-            s2 = new String[1];
-            s3 = new String[1];
-            s4 = new String[1];
-            s5 = new String[1];
-            s6 = new String[1];
-            images = new String[1];
+
+            s1 = new ArrayList<>();
+            s2 = new ArrayList<>();
+            s3 = new ArrayList<>();
+            s4 = new ArrayList<>();
+            s5 = new ArrayList<>();
+            s6 = new ArrayList<>();
+            images = new ArrayList<>();
+
+            hs1 = new ArrayList<>();
+            hs2 = new ArrayList<>();
+            hs3 = new ArrayList<>();
+            hs4 = new ArrayList<>();
+            hs5 = new ArrayList<>();
+            hs6 = new ArrayList<>();
+            himages = new ArrayList<>();
+
+
+            if(s1.size() != 0){
+                s1.set(0, "SUGAR: " + sugar + "g");
+                s2.set(0, "CARBS: " + carbs + "g");
+                s3.set(0, "FAT: " + fat + "g");
+                s4.set(0, "SALT: " + salt + "g");
+                s5.set(0, "ENERGY: " + energy + "kJ");
+                s6.set(0, "SODIUM: " + sodium + "g");
+                images.set(0, product.getImageUrl());
+            }
+            s1.add("SUGAR: " + sugar + "g");
+            s2.add("CARBS: " + carbs + "g");
+            s3.add("FAT: " + fat + "g");
+            s4.add("SALT: " + salt + "g");
+            s5.add("ENERGY: " + energy + "kJ");
+            s6.add("SODIUM: " + sodium + "g");
+            images.add(product.getImageUrl());
+
+
+            hs1.add("SUGAR: " + sugar + "g");
+            hs2.add("CARBS: " + carbs + "g");
+            hs3.add("FAT: " + fat + "g");
+            hs4.add("SALT: " + salt + "g");
+            hs5.add("ENERGY: " + energy + "kJ");
+            hs6.add("SODIUM: " + sodium + "g");
+            himages.add(product.getImageUrl());
 
 
 
-            s1[0] = "SUGAR: " + sugar + "g";
-            s2[0] = "CARBS: " + carbs + "g";
-            s3[0] = "FAT: " + fat + "g";
-            s4[0] = "SALT: " + salt + "g";
-            s5[0] = "ENERGY: " + energy + "kJ";
-            s6[0] = "SODIUM: " + sodium + "g";
-            images[0] = product.getImageUrl();
 
 
 
@@ -173,6 +211,12 @@ public class Results extends AppCompatActivity {
 
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
+
+
+
+//            MyAdapter historyAdapter = new MyAdapter(Results.this, hs1,hs2,hs3,hs4,hs5,hs6,himages);
+//            history.setAdapter(historyAdapter);
+//            history.setLayoutManager(new LinearLayoutManager(Results.this));
 
 
 

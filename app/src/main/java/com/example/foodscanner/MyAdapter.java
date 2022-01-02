@@ -45,7 +45,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
         holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
         holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
-        holder.myText6.setText("SODIUM" + products.get(position).getSodium() + "g");
+        holder.myText6.setText("SODIUM: " + products.get(position).getSodium() + "g");
         Picasso.with(context).load(products.get(position).getImageUrl()).into(holder.myImage);
 
     }

@@ -38,7 +38,12 @@ public class Results extends AppCompatActivity {
 
     String s1[];
     String s2[];
-    int images[];
+    String s3[];
+    String s4[];
+    String s5[];
+    String s6[];
+
+    String images[];
 
     String url = "https://world.openfoodfacts.org/api/v0/product/0000000000.json";
 
@@ -63,11 +68,6 @@ public class Results extends AppCompatActivity {
 //        s2 = getResources().getStringArray(R.array.description);
 
         new GetJSONTask().execute(url);
-
-        MyAdapter myAdapter = new MyAdapter(this, s1,s2);
-
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +102,7 @@ public class Results extends AppCompatActivity {
 
 
 
-    class GetJSONTask extends AsyncTask<String, Void, JsonObject> {
+    class GetJSONTask extends AsyncTask<String, Void, Product> {
 
         private String name;
         private String imageUrl;
@@ -126,63 +126,53 @@ public class Results extends AppCompatActivity {
 
 
         @Override
-        protected JsonObject doInBackground(String... urls) {
-
-            JsonObject rootJson = new JsonObject();
-            URL jsonURL = null;
-
-            try {
-                jsonURL = new URL(urls[0]);
-            } catch (java.net.MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                assert jsonURL != null;
-                URLConnection request = jsonURL.openConnection();
-                request.connect();
-                JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
-                rootJson = jsonElement.getAsJsonObject();
-            } catch(java.io.IOException e) {
-                e.printStackTrace();
-            }
-            JsonObject productJson = rootJson.getAsJsonObject("product");
-
-
-
-            return productJson;
+        protected Product doInBackground(String... urls) {
+            Product product = new Product(urls[0]);
+            return product;
         }
 
 
 
-        protected void onPostExecute(JsonObject productJson) {
+        protected void onPostExecute(Product product) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            name = productJson.get("product_name").getAsString();
-            imageUrl = productJson.get("image_front_url").getAsString();
-            JsonObject nutrients = productJson.getAsJsonObject("nutriments");
-            carbs = nutrients.get("carbohydrates").getAsString();
-            sugar = nutrients.get("sugars").getAsString();
-            fat = nutrients.get("fat").getAsString();
-            salt = nutrients.get("salt").getAsString();
-            energy = nutrients.get("energy").getAsString();
-            sodium = nutrients.get("sodium").getAsString();
+            name = product.getName();
+            carbs = product.getCarbs() + "";
+            sugar = product.getSugar() + "";
+
+            fat = product.getFat() + "";
+            salt = product.getSalt() + "";
+            energy = product.getEnergy() + "";
+            sodium = product.getSodium() + "";
+
+
 
             textView.setText(name);
-            s1 = new String[8];
-            s2 = new String[8];
+            s1 = new String[1];
+            s2 = new String[1];
+            s3 = new String[1];
+            s4 = new String[1];
+            s5 = new String[1];
+            s6 = new String[1];
+            images = new String[1];
 
 
 
-//
-//            s1[0] = carbsI;
-//            s2[0] = sugarI;
+            s1[0] = "SUGAR: " + sugar + "g";
+            s2[0] = "CARBS: " + carbs + "g";
+            s3[0] = "FAT: " + fat + "g";
+            s4[0] = "SALT: " + salt + "g";
+            s5[0] = "ENERGY: " + energy + "kJ";
+            s6[0] = "SODIUM: " + sodium + "g";
+            images[0] = product.getImageUrl();
 
 
 
+            MyAdapter myAdapter = new MyAdapter(Results.this, s1,s2,s3,s4,s5,s6,images);
 
-
+            recyclerView.setAdapter(myAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
 
 
 

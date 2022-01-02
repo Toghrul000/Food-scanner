@@ -38,21 +38,7 @@ public class Results extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView history;
 
-    List<String> s1;
-    List<String> s2;
-    List<String> s3;
-    List<String> s4;
-    List<String> s5;
-    List<String> s6;
-    List<String> images;
-
-    List<String> hs1;
-    List<String> hs2;
-    List<String> hs3;
-    List<String> hs4;
-    List<String> hs5;
-    List<String> hs6;
-    List<String> himages;
+    List<Product> products;
 
 
     String url = "https://world.openfoodfacts.org/api/v0/product/0000000000.json";
@@ -113,14 +99,11 @@ public class Results extends AppCompatActivity {
 
     class GetJSONTask extends AsyncTask<String, Void, Product> {
 
-        private String name;
-        private String imageUrl;
-        private String sugar;
-        private String carbs;
-        private String fat;
-        private String salt;
-        private String energy;
-        private String sodium;
+        @Override
+        protected Product doInBackground(String... urls) {
+            Product product = new Product(urls[0]);
+            return product;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -134,80 +117,24 @@ public class Results extends AppCompatActivity {
         }
 
 
-        @Override
-        protected Product doInBackground(String... urls) {
-            Product product = new Product(urls[0]);
-            return product;
-        }
-
 
 
         protected void onPostExecute(Product product) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            name = product.getName();
-            carbs = product.getCarbs() + "";
-            sugar = product.getSugar() + "";
+            textView.setText(product.getName());
 
-            fat = product.getFat() + "";
-            salt = product.getSalt() + "";
-            energy = product.getEnergy() + "";
-            sodium = product.getSodium() + "";
-
-
-
-            textView.setText(name);
-
-            s1 = new ArrayList<>();
-            s2 = new ArrayList<>();
-            s3 = new ArrayList<>();
-            s4 = new ArrayList<>();
-            s5 = new ArrayList<>();
-            s6 = new ArrayList<>();
-            images = new ArrayList<>();
-
-            hs1 = new ArrayList<>();
-            hs2 = new ArrayList<>();
-            hs3 = new ArrayList<>();
-            hs4 = new ArrayList<>();
-            hs5 = new ArrayList<>();
-            hs6 = new ArrayList<>();
-            himages = new ArrayList<>();
-
-
-            if(s1.size() != 0){
-                s1.set(0, "SUGAR: " + sugar + "g");
-                s2.set(0, "CARBS: " + carbs + "g");
-                s3.set(0, "FAT: " + fat + "g");
-                s4.set(0, "SALT: " + salt + "g");
-                s5.set(0, "ENERGY: " + energy + "kJ");
-                s6.set(0, "SODIUM: " + sodium + "g");
-                images.set(0, product.getImageUrl());
+            products = new ArrayList<>();
+            if(products.size() != 0){
+                products.set(0, product);
+            } else {
+                products.add(product);
             }
-            s1.add("SUGAR: " + sugar + "g");
-            s2.add("CARBS: " + carbs + "g");
-            s3.add("FAT: " + fat + "g");
-            s4.add("SALT: " + salt + "g");
-            s5.add("ENERGY: " + energy + "kJ");
-            s6.add("SODIUM: " + sodium + "g");
-            images.add(product.getImageUrl());
-
-
-            hs1.add("SUGAR: " + sugar + "g");
-            hs2.add("CARBS: " + carbs + "g");
-            hs3.add("FAT: " + fat + "g");
-            hs4.add("SALT: " + salt + "g");
-            hs5.add("ENERGY: " + energy + "kJ");
-            hs6.add("SODIUM: " + sodium + "g");
-            himages.add(product.getImageUrl());
 
 
 
-
-
-
-            MyAdapter myAdapter = new MyAdapter(Results.this, s1,s2,s3,s4,s5,s6,images);
+            MyAdapter myAdapter = new MyAdapter(Results.this, products);
 
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));

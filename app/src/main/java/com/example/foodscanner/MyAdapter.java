@@ -19,19 +19,14 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    List<String> data1, data2, data3, data4, data5, data6, imageUrls;
+    List<Product> products;
 
     Context context;
 
-    public MyAdapter(Context ct, List<String> s1, List<String> s2, List<String> s3, List<String> s4, List<String> s5, List<String> s6, List<String> urls){
+    public MyAdapter(Context ct, List<Product> p){
         context = ct;
-        data1 = s1;
-        data2 = s2;
-        data3 = s3;
-        data4 = s4;
-        data5 = s5;
-        data6 = s6;
-        imageUrls = urls;
+        products = p;
+
 
     }
 
@@ -45,19 +40,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.myText1.setText(data1.get(position));
-        holder.myText2.setText(data2.get(position));
-        holder.myText3.setText(data3.get(position));
-        holder.myText4.setText(data4.get(position));
-        holder.myText5.setText(data5.get(position));
-        holder.myText6.setText(data6.get(position));
-        Picasso.with(context).load(imageUrls.get(position)).into(holder.myImage);
+        holder.myText1.setText("SUGAR: " + products.get(position).getSugar() + "g");
+        holder.myText2.setText("CARBS: " + products.get(position).getCarbs() + "g");
+        holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
+        holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
+        holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
+        holder.myText6.setText("SODIUM" + products.get(position).getSodium() + "g");
+        Picasso.with(context).load(products.get(position).getImageUrl()).into(holder.myImage);
 
     }
 
     @Override
     public int getItemCount() {
-        return data1.size();
+
+        return products.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

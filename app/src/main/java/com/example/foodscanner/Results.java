@@ -33,15 +33,32 @@ import java.util.List;
 
 public class Results extends AppCompatActivity {
 
+
+
+
+
+    String[] breadUrls = {"https://nl.openfoodfacts.org/categorie/broden/1.json", "https://nl.openfoodfacts.org/categorie/broden/2.json", "https://nl.openfoodfacts.org/categorie/broden/3.json", "https://nl.openfoodfacts.org/categorie/broden/4.json",
+            "https://nl.openfoodfacts.org/categorie/broden/5.json", "https://nl.openfoodfacts.org/categorie/broden/6.json",
+            "https://nl.openfoodfacts.org/categorie/broden/7.json", "https://nl.openfoodfacts.org/categorie/broden/8.json",
+            "https://nl.openfoodfacts.org/categorie/broden/9.json"};
+
+    String[] sodaUrls = {"https://nl.openfoodfacts.org/categorie/frisdranken/1.json", "https://nl.openfoodfacts.org/categorie/frisdranken/2.json", "https://nl.openfoodfacts.org/categorie/frisdranken/3.json"};
+
+    String[] cerealUrls = {"https://nl.openfoodfacts.org/categorie/ontbijtgranen/1.json", "https://nl.openfoodfacts.org/categorie/ontbijtgranen/2.json", "https://nl.openfoodfacts.org/categorie/ontbijtgranen/3.json", "https://nl.openfoodfacts.org/categorie/ontbijtgranen/4.json",
+            "https://nl.openfoodfacts.org/categorie/ontbijtgranen/5.json", "https://nl.openfoodfacts.org/categorie/ontbijtgranen/6.json"};
+
     Button search ;
     Button home;
     TextView textView;
     RecyclerView recyclerView;
+    RecyclerView recyclerView2;
     RecyclerView history;
     List<Product> products;
     List<Product> hproducts;
 
-    List<Product> relatedProducts;
+    List<Product> relatedProducts = new ArrayList<>();
+
+
 
 
 
@@ -61,12 +78,15 @@ public class Results extends AppCompatActivity {
         home = findViewById(R.id.home);
 
         textView = findViewById(R.id.textView);
+
         recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView2 = findViewById(R.id.recyclerView2);
         history = findViewById(R.id.history);
 
 
 
         new GetJSONTask().execute(url);
+
 
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -139,32 +159,62 @@ public class Results extends AppCompatActivity {
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
 
-            hproducts = new ArrayList<>();
-            hproducts.add(product);
 
-//
-//            MyAdapter historyAdapter = new MyAdapter(Results.this, products);
-//            history.setAdapter(historyAdapter);
-//            history.setLayoutManager(new LinearLayoutManager(Results.this));
+            for (int i = 0; i < products.get(0).getCategories().size(); i++) {
+                if(products.get(0).getCategories().get(i).getAsString().equals("en:breads")){
+                    new GetRelated().execute(breadUrls[0], breadUrls[1], breadUrls[2],
+                            breadUrls[3], breadUrls[4], breadUrls[5], breadUrls[6], breadUrls[7], breadUrls[8]);
+
+                    break;
+
+                } else if (products.get(0).getCategories().get(i).getAsString().equals("en:sodas")){
+                    new GetRelated().execute(sodaUrls[0], sodaUrls[1], sodaUrls[2]);
+
+                    break;
+
+                } else if(products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-potatoes") ||
+                        products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-their-products") ||
+                        products.get(0).getCategories().get(i).getAsString().equals("en:breakfast-cereals")){
+
+                    new GetRelated().execute(cerealUrls[0], cerealUrls[1], cerealUrls[2], cerealUrls[3], cerealUrls[4], cerealUrls[5]);
+                    break;
+
+                }
+
+            }
+
+
 
         }
     }
 
 
 
-    class GetRelated extends AsyncTask<String, Void, Product> {
+    class GetRelated extends AsyncTask<String, Void, List<Product>> {
 
         @Override
-        protected Product doInBackground(String... urls) {
+        protected List<Product> doInBackground(String... urls) {
 
-            return null;
+            for (int i = 0; i < urls.length; i++) {
+                category(urls[i]);
+            }
+            return relatedProducts;
         }
 
         public void category(String url){
             JsonObject rootJson = getJsonObj(url);
-            JsonArray productsJson = rootJson.getAsJsonArray("product");
+            JsonArray productsJson = rootJson.getAsJsonArray("products");
+            for (int i = 0; i < productsJson.size(); i++) {
+                Product p = new Product(productsJson.get(i).getAsJsonObject());
+                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1 || p.getSodium() == -1 || p.getImageUrl().equals("no")){
 
-
+                }else {
+                    //CHANGE TO HEALTHY
+                    if(products.get(0).getSugar() > p.getSugar() && products.get(0).getCarbs() > p.getCarbs()){
+                        relatedProducts.add(p);
+                    }
+                }
+            }
         }
 
 
@@ -208,9 +258,14 @@ public class Results extends AppCompatActivity {
         }
 
 
-        protected void onPostExecute(Product product) {
+        protected void onPostExecute(List<Product> productsList) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
+            MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList);
+            recyclerView2.setAdapter(myAdapter2);
+            recyclerView2.setLayoutManager(new LinearLayoutManager(Results.this));
+
 
 
         }

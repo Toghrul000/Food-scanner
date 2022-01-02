@@ -46,6 +46,7 @@
         tools:layout_editor_absoluteY="232dp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
         android:layout_width="349dp"
         android:layout_height="266dp"
         android:layout_alignParentBottom="true"

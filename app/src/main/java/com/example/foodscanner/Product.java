@@ -14,14 +14,20 @@ import java.net.URLConnection;
 
 public class Product {
 
+
+
+    private JsonArray categories;
+    private JsonArray keywords;
+
+
     private String name;
-    private String imageUrl;
-    private double sugar;
-    private double carbs;
-    private double fat;
-    private double salt;
-    private double energy;
-    private double sodium;
+    private String imageUrl = "no";
+    private double sugar = -1;
+    private double carbs = -1;
+    private double fat = -1;
+    private double salt = -1;
+    private double energy = -1;
+    private double sodium = -1;
 
     public Product(String jsonLink) {
         //initialize the product automatically based on the url to the json
@@ -47,13 +53,20 @@ public class Product {
         JsonObject productJson = rootJson.getAsJsonObject("product");
         name = productJson.get("product_name").getAsString();
         imageUrl = productJson.get("image_front_url").getAsString();
+
+        categories = productJson.getAsJsonArray("categories_hierarchy");
+        keywords = productJson.getAsJsonArray("_keywords");
+
+
+
         JsonObject nutrients = productJson.getAsJsonObject("nutriments");
-        carbs = nutrients.get("carbohydrates").getAsDouble();
-        sugar = nutrients.get("sugars").getAsDouble();
-        fat = nutrients.get("fat").getAsDouble();
-        salt = nutrients.get("salt").getAsDouble();
-        energy = nutrients.get("energy").getAsDouble();
-        sodium = nutrients.get("sodium").getAsDouble();
+        if (nutrients.has("carbohydrates")) {carbs = nutrients.get("carbohydrates").getAsDouble();}
+        if (nutrients.has("sugars")) {sugar = nutrients.get("sugars").getAsDouble();}
+        if (nutrients.has("fat")) {fat = nutrients.get("fat").getAsDouble();}
+        if (nutrients.has("salt")) {salt = nutrients.get("salt").getAsDouble();}
+        if (nutrients.has("energy")) {energy = nutrients.get("energy").getAsDouble();}
+        if (nutrients.has("sodium")) {sodium = nutrients.get("sodium").getAsDouble();}
+
     }
 
     public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium) {
@@ -66,6 +79,40 @@ public class Product {
         this.salt = salt;
         this.energy = energy;
         this.sodium = sodium;
+    }
+
+    public JsonArray getCategories() {
+        return categories;
+    }
+
+    public void setCategories(JsonArray categories) {
+        this.categories = categories;
+    }
+
+    public JsonArray getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(JsonArray keywords) {
+        this.keywords = keywords;
+    }
+
+    public Product(JsonObject productJson){
+        name = productJson.get("product_name").getAsString();
+        if(productJson.has("image_front_url")){
+            imageUrl = productJson.get("image_front_url").getAsString();
+        }
+        JsonObject nutrients = productJson.getAsJsonObject("nutriments");
+        if (nutrients.has("carbohydrates")) {carbs = nutrients.get("carbohydrates").getAsDouble();}
+        if (nutrients.has("sugars")) {sugar = nutrients.get("sugars").getAsDouble();}
+        if (nutrients.has("fat")) {fat = nutrients.get("fat").getAsDouble();}
+        if (nutrients.has("salt")) {salt = nutrients.get("salt").getAsDouble();}
+        if (nutrients.has("energy")) {energy = nutrients.get("energy").getAsDouble();}
+        if (nutrients.has("sodium")) {sodium = nutrients.get("sodium").getAsDouble();}
+
+        categories = productJson.getAsJsonArray("categories_hierarchy");
+        keywords = productJson.getAsJsonArray("_keywords");
+
     }
 
     public String getName() {

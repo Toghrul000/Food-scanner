@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,12 +21,16 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     List<Product> products;
+    Database database;
 
     Context context;
+    boolean isButton;
 
-    public MyAdapter(Context ct, List<Product> p){
+    public MyAdapter(Context ct, List<Product> p, boolean isButton){
         context = ct;
         products = p;
+        this.isButton = isButton;
+        database = new Database(context);
 
 
     }
@@ -34,7 +39,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.my_row, parent, false);
+        View view;
+        if (!isButton) {
+            view = inflater.inflate(R.layout.my_row, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.my_row_favorite, parent, false);
+        }
+
         return new MyViewHolder(view);
     }
 
@@ -45,9 +56,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
         holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
         holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
-        holder.myText6.setText("SODIUM: " + products.get(position).getSodium() + "g");
+        holder.myText6.setText("SODIUM" + products.get(position).getSodium() + "g");
+        if (isButton) {
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    saveProduct();
+                }
+            });
+        }
         Picasso.with(context).load(products.get(position).getImageUrl()).into(holder.myImage);
 
+    }
+
+    private void saveProduct() {
+        database.addProductFav(products.get(0));
     }
 
     @Override
@@ -60,6 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         TextView myText1, myText2, myText3, myText4, myText5, myText6;
         ImageView myImage;
+        Button button;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +94,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             myText5 = itemView.findViewById(R.id.myText5);
             myText6 = itemView.findViewById(R.id.myText6);
             myImage = itemView.findViewById(R.id.imageView2);
+            if (isButton) {
+                button = itemView.findViewById(R.id.buttonSave);
+            }
         }
     }
 }

@@ -54,7 +54,6 @@ public class Results extends AppCompatActivity {
     RecyclerView recyclerView2;
     RecyclerView history;
     List<Product> products;
-    List<Product> hproducts;
 
     List<Product> relatedProducts = new ArrayList<>();
 
@@ -143,7 +142,7 @@ public class Results extends AppCompatActivity {
         }
 
         public void AddProduct(Product product) {
-            boolean insertData = database.addProduct(product);
+            boolean insertData = database.addProductHistory(product);
         }
 
 
@@ -164,7 +163,7 @@ public class Results extends AppCompatActivity {
             AddProduct(product);
 
 
-            MyAdapter myAdapter = new MyAdapter(Results.this, products);
+            MyAdapter myAdapter = new MyAdapter(Results.this, products, true);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
 
@@ -275,7 +274,7 @@ public class Results extends AppCompatActivity {
                 pDialog.dismiss();
 
 
-            MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList);
+            MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList, true);
             recyclerView2.setAdapter(myAdapter2);
             recyclerView2.setLayoutManager(new LinearLayoutManager(Results.this));
 

@@ -12,7 +12,8 @@ import androidx.annotation.Nullable;
 public class Database extends SQLiteOpenHelper {
 
     private static final String TAG = "Database";
-    private static final String TABLE_NAME = "Products";
+    private static final String TABLE_HISTORY = "Products";
+    private static final String TABLE_FAV = "Favorites";
     private static final String ID = "ID";
     private static final String NAME = "NAME";
     private static String IMAGE_URL = "IMAGE_URL";
@@ -24,12 +25,12 @@ public class Database extends SQLiteOpenHelper {
     private static String SODIUM = "SODIUM";
 
     public Database(@Nullable Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, TABLE_HISTORY, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String createTableHistory = "CREATE TABLE " + TABLE_HISTORY + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NAME + " TEXT, " +
                 IMAGE_URL + " TEXT, "+
                 SUGAR + " DOUBLE, "+
@@ -38,17 +39,30 @@ public class Database extends SQLiteOpenHelper {
                 SALT + " DOUBLE, "+
                 ENERGY + " DOUBLE, "+
                 SODIUM + " DOUBLE)";
-        db.execSQL(createTable);
+        db.execSQL(createTableHistory);
+
+        String createTableFav = "CREATE TABLE " + TABLE_FAV + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NAME + " TEXT, " +
+                IMAGE_URL + " TEXT, "+
+                SUGAR + " DOUBLE, "+
+                CARBS + " DOUBLE, "+
+                FAT + " DOUBLE, "+
+                SALT + " DOUBLE, "+
+                ENERGY + " DOUBLE, "+
+                SODIUM + " DOUBLE)";
+        db.execSQL(createTableFav);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        String query  = "DROP TABLE IF  EXISTS " + TABLE_NAME;
+        String query  = "DROP TABLE IF  EXISTS " + TABLE_HISTORY;
+        db.execSQL(query);
+        query  = "DROP TABLE IF  EXISTS " + TABLE_FAV;
         db.execSQL(query);
         onCreate(db);
     }
 
-    public boolean addProduct(Product product) {
+    public boolean addProductHistory(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, product.getName());
@@ -60,17 +74,43 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(ENERGY, product.getEnergy());
         contentValues.put(SODIUM, product.getSodium());
 
-        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_NAME);
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
+        long result = db.insert(TABLE_HISTORY, null, contentValues);
         if (result == -1) {
             return false;
         }
         return true;
     }
 
-    public Cursor getProduct() {
+    public boolean addProductFav(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, product.getName());
+        contentValues.put(IMAGE_URL, product.getImageUrl());
+        contentValues.put(SUGAR, product.getSugar());
+        contentValues.put(CARBS, product.getCarbs());
+        contentValues.put(FAT, product.getFat());
+        contentValues.put(SALT, product.getSalt());
+        contentValues.put(ENERGY, product.getEnergy());
+        contentValues.put(SODIUM, product.getSodium());
+
+        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
+        long result = db.insert(TABLE_FAV, null, contentValues);
+        if (result == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    public Cursor getProductsHistory() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_HISTORY, null);
+        return data;
+    }
+
+    public Cursor getProductsFav() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_FAV, null);
         return data;
     }
 }

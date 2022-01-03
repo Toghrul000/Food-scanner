@@ -20,7 +20,7 @@ public class Product {
     private JsonArray keywords;
 
 
-    private String name;
+    private String name = "noname";
     private String imageUrl = "no";
     private double sugar = -1;
     private double carbs = -1;
@@ -51,8 +51,12 @@ public class Product {
         }
 
         JsonObject productJson = rootJson.getAsJsonObject("product");
-        name = productJson.get("product_name").getAsString();
-        imageUrl = productJson.get("image_front_url").getAsString();
+        if(productJson.has("product_name")){
+            name = productJson.get("product_name").getAsString();
+        }
+        if(productJson.has("image_front_url")){
+            imageUrl = productJson.get("image_front_url").getAsString();
+        }
 
         categories = productJson.getAsJsonArray("categories_hierarchy");
         keywords = productJson.getAsJsonArray("_keywords");
@@ -98,7 +102,9 @@ public class Product {
     }
 
     public Product(JsonObject productJson){
-        name = productJson.get("product_name").getAsString();
+        if(productJson.has("product_name")){
+            name = productJson.get("product_name").getAsString();
+        }
         if(productJson.has("image_front_url")){
             imageUrl = productJson.get("image_front_url").getAsString();
         }

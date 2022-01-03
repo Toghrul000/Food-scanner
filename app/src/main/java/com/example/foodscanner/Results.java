@@ -58,6 +58,8 @@ public class Results extends AppCompatActivity {
 
     List<Product> relatedProducts = new ArrayList<>();
 
+    Database database = new Database(this);
+
 
 
 
@@ -140,8 +142,13 @@ public class Results extends AppCompatActivity {
 
         }
 
+        public void AddProduct(Product product) {
+            boolean insertData = database.addProduct(product);
+        }
+
 
         protected void onPostExecute(Product product) {
+
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
@@ -154,10 +161,14 @@ public class Results extends AppCompatActivity {
                 products.add(product);
             }
 
+            AddProduct(product);
+
 
             MyAdapter myAdapter = new MyAdapter(Results.this, products);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
+
+
 
 
             for (int i = 0; i < products.get(0).getCategories().size(); i++) {
@@ -172,8 +183,7 @@ public class Results extends AppCompatActivity {
 
                     break;
 
-                } else if(products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-potatoes") ||
-                        products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-their-products") ||
+                } else if(products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-their-products") ||
                         products.get(0).getCategories().get(i).getAsString().equals("en:breakfast-cereals")){
 
                     new GetRelated().execute(cerealUrls[0], cerealUrls[1], cerealUrls[2], cerealUrls[3], cerealUrls[4], cerealUrls[5]);
@@ -187,6 +197,10 @@ public class Results extends AppCompatActivity {
 
         }
     }
+
+
+
+
 
 
 
@@ -206,9 +220,10 @@ public class Results extends AppCompatActivity {
             JsonArray productsJson = rootJson.getAsJsonArray("products");
             for (int i = 0; i < productsJson.size(); i++) {
                 Product p = new Product(productsJson.get(i).getAsJsonObject());
-                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1 || p.getSodium() == -1 || p.getImageUrl().equals("no")){
+                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1 || p.getSodium() == -1 || p.getImageUrl().equals("no") || p.getName().equals("noname")){
 
                 }else {
+
                     //CHANGE TO HEALTHY
                     if(products.get(0).getSugar() > p.getSugar() && products.get(0).getCarbs() > p.getCarbs()){
                         relatedProducts.add(p);
@@ -242,10 +257,6 @@ public class Results extends AppCompatActivity {
         }
 
 
-
-
-
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -258,9 +269,11 @@ public class Results extends AppCompatActivity {
         }
 
 
+
         protected void onPostExecute(List<Product> productsList) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
 
             MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList);
             recyclerView2.setAdapter(myAdapter2);

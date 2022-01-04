@@ -70,6 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onClick(View view) {
                     if (holder.button.getText().equals("delete")) {
                         database.removeProduct("Favorites", products.get(p));
+                        removeItem(p);
 //                        System.out.println("Deleting " + p);
                         Toast.makeText(context,"Deleted", Toast.LENGTH_SHORT).show();
 
@@ -90,6 +91,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void saveProduct(int pos) {
         database.addProductFav(products.get(pos));
+    }
+    public void removeItem(int p){
+        products.remove(p);
+        notifyItemRemoved(p);
+        notifyItemRangeChanged(p, products.size());
     }
 
     @Override

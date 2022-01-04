@@ -1,61 +1,52 @@
 package com.example.foodscanner;
 
+import android.content.Context;
+
+import com.example.foodscanner.Product;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.core.*;
 import weka.core.Instances;
-import weka.classifiers.Evaluation;
 import weka.core.converters.ConverterUtils;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class FoodClassifier {
 
-    public String predictHealthiness(Product product) throws Exception {
 
-        //predict food type
-        ConverterUtils.DataSource source1 = new ConverterUtils.DataSource("/app/src/main/java/com/example/foodscanner/trainFoodtype.arff");
-        Instances trainingSet1 = source1.getDataSet();
-        int classIndex1 = trainingSet1.numAttributes() - 1;
-        trainingSet1.setClassIndex(classIndex1);
+    String[] types = {"Bread","Softdrink","Cereals"};
+    String[] classes = {"Unhealthy","Neutral","Healthy"};
+    Attribute type = new Attribute("type", Arrays.asList(types));
+    Attribute carbs = new Attribute("carbs");
+    Attribute fat = new Attribute("fat");
+    Attribute protein = new Attribute("protein");
+    Attribute fiber = new Attribute("fiber");
+    Attribute sodium = new Attribute("sodium");
+    Attribute saturatedfat = new Attribute("saturatedfat");
+    Attribute healthiness = new Attribute("healthiness",Arrays.asList(classes));
+    Attribute salt = new Attribute("salt");
+    Attribute energy = new Attribute("energy");
+    Attribute sugar = new Attribute("sugar");
+    ArrayList<Attribute> foodTypeAttributes = new ArrayList<Attribute>();
+    ArrayList<Attribute> healthinessAttributes = new ArrayList<Attribute>();
+    NaiveBayes foodtypeClassifier = new NaiveBayes();
+    NaiveBayes healthinessClassifier = new NaiveBayes();
+    int classIndex1;
+    int classIndex2;
 
-        String[] types = {"Bread","Softdrink","Cereals"};
-        String[] classes = {"Unhealthy","Neutral","Healthy"};
-        Attribute type = new Attribute("type", Arrays.asList(types));
-        Attribute carbs = new Attribute("carbs");
-        Attribute fat = new Attribute("fat");
-        Attribute protein = new Attribute("protein");
-        Attribute fiber = new Attribute("fiber");
-        Attribute sodium = new Attribute("sodium");
-        Attribute saturatedfat = new Attribute("saturatedfat");
-        Attribute healthiness = new Attribute("healthiness",Arrays.asList(classes));
-        Attribute salt = new Attribute("salt");
-        Attribute energy = new Attribute("energy");
-        Attribute sugar = new Attribute("sugar");
 
-        ArrayList<Attribute> foodTypeAttributes = new ArrayList<Attribute>();
-        foodTypeAttributes.add(carbs);
-        foodTypeAttributes.add(sugar);
-        foodTypeAttributes.add(fat);
-        foodTypeAttributes.add(saturatedfat);
-        foodTypeAttributes.add(salt);
-        foodTypeAttributes.add(energy);
-        foodTypeAttributes.add(sodium);
-        foodTypeAttributes.add(protein);
-        foodTypeAttributes.add(fiber);
-        foodTypeAttributes.add(type);
+    public FoodClassifier(Context context) throws Exception {
+        trainModels(context);
+    }
 
+
+    public String predictHealthiness(com.example.foodscanner.Product product) throws Exception {
+
+        //Predict food type
         Instances testingSet1 = new Instances("Testing Set",foodTypeAttributes,1);
-        NaiveBayes foodtypeClassifier = new NaiveBayes();
-        foodtypeClassifier.buildClassifier(trainingSet1);
-
-        Evaluation eval1 = new Evaluation(trainingSet1);
-        eval1.crossValidateModel(foodtypeClassifier, trainingSet1, 10, new Random(1));
-        System.out.println("-----Food type classifier-----");
-        System.out.println(eval1.toSummaryString());
-        System.out.println(eval1.toMatrixString());
-        System.out.println(eval1.toClassDetailsString());
 
         DenseInstance productInstance1 = new DenseInstance(10);
         productInstance1.setValue(carbs, product.getCarbs());
@@ -76,35 +67,10 @@ public class FoodClassifier {
         double myValue = foodtypeClassifier.classifyInstance(unlabeled);
         String predictedFoodType = testingSet1.classAttribute().value((int) myValue);
 
-        //predict healthines
-        ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("trainHealthiness.arff");
-        Instances trainingSet2 = source2.getDataSet();
-        int classIndex2 = trainingSet2.numAttributes() - 1;
-        trainingSet2.setClassIndex(classIndex2);
 
 
-
-
-        ArrayList<Attribute> healthinessAttributes = new ArrayList<Attribute>();
-        healthinessAttributes.add(type);
-        healthinessAttributes.add(carbs);
-        healthinessAttributes.add(fat);
-        healthinessAttributes.add(protein);
-        healthinessAttributes.add(fiber);
-        healthinessAttributes.add(sodium);
-        healthinessAttributes.add(saturatedfat);
-        healthinessAttributes.add(healthiness);
-
-        Instances testingSet2 = new Instances("Testing Set",healthinessAttributes,9);
-        NaiveBayes healthinessClassifier = new NaiveBayes();
-        healthinessClassifier.buildClassifier(trainingSet2);
-
-        Evaluation eval2 = new Evaluation(trainingSet2);
-        eval2.crossValidateModel(foodtypeClassifier, trainingSet2, 10, new Random(1));
-        System.out.println("-----Healthiness classifier-----");
-        System.out.println(eval2.toSummaryString());
-        System.out.println(eval2.toMatrixString());
-        System.out.println(eval2.toClassDetailsString());
+        //Predict healthiness
+        Instances testingSet2 = new Instances("Testing Set",healthinessAttributes,1);
 
         DenseInstance productInstance2 = new DenseInstance(8);
         productInstance2.setValue(type, predictedFoodType);
@@ -127,6 +93,50 @@ public class FoodClassifier {
         return predictedHealthiness;
     }
 
+    private void trainModels(Context context) throws Exception {
+
+
+        InputStream is = context.getResources().openRawResource(R.raw.trainfoodtype);
+        BufferedReader datafile = new BufferedReader(new InputStreamReader(is));
+        //food type classifier
+//        ConverterUtils.DataSource source1 = new ConverterUtils.DataSource("C:/trainfoodtype.arff");
+        Instances trainingSet1 = new Instances(datafile);
+        classIndex1 = trainingSet1.numAttributes() - 1;
+        trainingSet1.setClassIndex(classIndex1);
+
+        foodTypeAttributes.add(carbs);
+        foodTypeAttributes.add(sugar);
+        foodTypeAttributes.add(fat);
+        foodTypeAttributes.add(saturatedfat);
+        foodTypeAttributes.add(salt);
+        foodTypeAttributes.add(energy);
+        foodTypeAttributes.add(sodium);
+        foodTypeAttributes.add(protein);
+        foodTypeAttributes.add(fiber);
+        foodTypeAttributes.add(type);
+
+        foodtypeClassifier.buildClassifier(trainingSet1);
+
+
+        //healthiness classifier
+        InputStream is1 = context.getResources().openRawResource(R.raw.trainhealthiness);
+        BufferedReader datafile1 = new BufferedReader(new InputStreamReader(is1));
+        Instances trainingSet2 = new Instances(datafile1);
+        classIndex2 = trainingSet2.numAttributes() - 1;
+        trainingSet2.setClassIndex(classIndex2);
+
+        healthinessAttributes.add(type);
+        healthinessAttributes.add(carbs);
+        healthinessAttributes.add(fat);
+        healthinessAttributes.add(protein);
+        healthinessAttributes.add(fiber);
+        healthinessAttributes.add(sodium);
+        healthinessAttributes.add(saturatedfat);
+        healthinessAttributes.add(healthiness);
+
+        healthinessClassifier.buildClassifier(trainingSet2);
+
+    }
 
 //    public static void main(String[] args) throws Exception {
 //        // load data

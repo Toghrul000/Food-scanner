@@ -151,18 +151,17 @@ public class Results extends AppCompatActivity {
 
         protected void onPostExecute(Product product) {
 
-            FoodClassifier foodClassifier = new FoodClassifier();
+            FoodClassifier foodClassifier = null;
+
             try {
-                Log.d("MACHINE LEARNIGNNGGG: ", foodClassifier.predictHealthiness(product));
+                foodClassifier = new FoodClassifier(Results.this);
+                Log.d("MACHINEEEEEE: ", foodClassifier.predictHealthiness(product));
+
             } catch (Exception e) {
                 Log.d("ERRORRRRRRRR: ", "WE HAVE EXCEPTION");
                 e.printStackTrace();
             }
-            try {
-                textView.setText(foodClassifier.predictHealthiness(product));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
             if (pDialog.isShowing())
                 pDialog.dismiss();

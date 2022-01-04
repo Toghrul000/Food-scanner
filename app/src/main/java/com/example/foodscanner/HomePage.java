@@ -66,12 +66,11 @@ public class HomePage extends AppCompatActivity {
     private void showProductsHistory() {
         Cursor data = database.getProductsHistory();
         ArrayList<Product> list = new ArrayList<>();
-        Product p1 = new Product("jljl", "h", 9000, 90000, 300004, 3,3,3);
-        list.add(p1);
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
                     data.getDouble(6), data.getDouble(7), data.getDouble(8));
+            product.setId(data.getInt(0));
             list.add(product);
         }
         MyAdapter myAdapter = new MyAdapter(HomePage.this, list, false);
@@ -82,15 +81,14 @@ public class HomePage extends AppCompatActivity {
     private void showProductsFav() {
         Cursor data = database.getProductsFav();
         ArrayList<Product> list = new ArrayList<>();
-        Product p1 = new Product("jljl", "h", 9000, 90000, 300004, 3,3,3);
-        list.add(p1);
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
                     data.getDouble(6), data.getDouble(7), data.getDouble(8));
+            product.setId(data.getInt(0));
             list.add(product);
         }
-        MyAdapter myAdapter = new MyAdapter(this, list, false);
+        MyAdapter myAdapter = new MyAdapter(this, list, true);
         favorites.setAdapter(myAdapter);
         favorites.setLayoutManager(new LinearLayoutManager(this));
     }

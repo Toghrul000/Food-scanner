@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="400dp"
+            android:layout_width="425dp"
             android:layout_height="180dp">
 
             <ImageView
@@ -28,22 +28,36 @@
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/myText9"
+                android:layout_width="161dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="252dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/myText1"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/myText2"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,9 +65,10 @@
                 android:id="@+id/myText3"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="55dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="51dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,9 +76,10 @@
                 android:id="@+id/myText4"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="75dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="69dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,9 +87,10 @@
                 android:id="@+id/myText5"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="95dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="87dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,12 +98,37 @@
                 android:id="@+id/myText6"
                 android:layout_width="161dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="115dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="105dp"
+                android:layout_marginEnd="120dp"
                 android:text="TextView"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/myText7"
+                android:layout_width="161dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="123dp"
+                android:layout_marginEnd="120dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/myText8"
+                android:layout_width="161dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="141dp"
+                android:layout_marginEnd="120dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

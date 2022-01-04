@@ -59,6 +59,8 @@ public class Results extends AppCompatActivity {
 
     Database database = new Database(this);
 
+    String barcode;
+
 
 
 
@@ -72,7 +74,7 @@ public class Results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
         Intent intent = getIntent();
-        String barcode = intent.getStringExtra(MainActivity.barcode);
+        barcode = intent.getStringExtra(MainActivity.barcode);
         url = "https://world.openfoodfacts.org/api/v0/product/"+ barcode + ".json";
 
         search = findViewById(R.id.scanA);
@@ -127,6 +129,7 @@ public class Results extends AppCompatActivity {
         @Override
         protected Product doInBackground(String... urls) {
             Product product = new Product(urls[0]);
+            product.setId(Integer.valueOf(barcode));
             return product;
         }
 
@@ -148,10 +151,28 @@ public class Results extends AppCompatActivity {
 
         protected void onPostExecute(Product product) {
 
+            FoodClassifier foodClassifier = new FoodClassifier();
+            try {
+                Log.d("MACHINE LEARNIGNNGGG: ", foodClassifier.predictHealthiness(product));
+            } catch (Exception e) {
+                Log.d("ERRORRRRRRRR: ", "WE HAVE EXCEPTION");
+                e.printStackTrace();
+            }
+            try {
+                textView.setText(foodClassifier.predictHealthiness(product));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            textView.setText(product.getName());
+
+
+
+
+//            textView.setText(product.getName());
+
 
             products = new ArrayList<>();
             if(products.size() != 0){
@@ -161,6 +182,7 @@ public class Results extends AppCompatActivity {
             }
 
             AddProduct(product);
+
 
 
             MyAdapter myAdapter = new MyAdapter(Results.this, products, true);
@@ -202,7 +224,6 @@ public class Results extends AppCompatActivity {
 
 
 
-
     class GetRelated extends AsyncTask<String, Void, List<Product>> {
 
         @Override
@@ -219,7 +240,9 @@ public class Results extends AppCompatActivity {
             JsonArray productsJson = rootJson.getAsJsonArray("products");
             for (int i = 0; i < productsJson.size(); i++) {
                 Product p = new Product(productsJson.get(i).getAsJsonObject());
-                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1 || p.getSodium() == -1 || p.getImageUrl().equals("no") || p.getName().equals("noname")){
+                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1
+                        || p.getSodium() == -1 || p.getProteins() == -1 || p.getFiber() == -1 || p.getSaturatedFat() == -1
+                        || p.getImageUrl().equals("no") || p.getName().equals("noname")){
 
                 }else {
 

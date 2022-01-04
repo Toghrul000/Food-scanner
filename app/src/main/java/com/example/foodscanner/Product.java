@@ -28,6 +28,46 @@ public class Product {
     private double salt = -1;
     private double energy = -1;
     private double sodium = -1;
+    private double proteins = -1;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
+    public double getFiber() {
+        return fiber;
+    }
+
+    public void setFiber(double fiber) {
+        this.fiber = fiber;
+    }
+
+    public double getSaturatedFat() {
+        return saturatedFat;
+    }
+
+    public void setSaturatedFat(double saturatedFat) {
+        this.saturatedFat = saturatedFat;
+    }
+
+    private double fiber = -1;
+    private double saturatedFat = -1;
+
+    public double getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(double proteins) {
+        this.proteins = proteins;
+    }
+
+
 
     public Product(String jsonLink) {
         //initialize the product automatically based on the url to the json
@@ -70,6 +110,10 @@ public class Product {
         if (nutrients.has("salt")) {salt = nutrients.get("salt").getAsDouble();}
         if (nutrients.has("energy")) {energy = nutrients.get("energy").getAsDouble();}
         if (nutrients.has("sodium")) {sodium = nutrients.get("sodium").getAsDouble();}
+        if (nutrients.has("proteins")) {proteins = nutrients.get("proteins").getAsDouble();}
+        if (nutrients.has("fiber")) {fiber = nutrients.get("fiber").getAsDouble();}
+        if (nutrients.has("saturated-fat")) {saturatedFat = nutrients.get("saturated-fat").getAsDouble();}
+
 
     }
 
@@ -115,6 +159,9 @@ public class Product {
         if (nutrients.has("salt")) {salt = nutrients.get("salt").getAsDouble();}
         if (nutrients.has("energy")) {energy = nutrients.get("energy").getAsDouble();}
         if (nutrients.has("sodium")) {sodium = nutrients.get("sodium").getAsDouble();}
+        if (nutrients.has("proteins")) {proteins = nutrients.get("proteins").getAsDouble();}
+        if (nutrients.has("fiber")) {fiber = nutrients.get("fiber").getAsDouble();}
+        if (nutrients.has("saturated-fat")) {saturatedFat = nutrients.get("saturated-fat").getAsDouble();}
 
         categories = productJson.getAsJsonArray("categories_hierarchy");
         keywords = productJson.getAsJsonArray("_keywords");

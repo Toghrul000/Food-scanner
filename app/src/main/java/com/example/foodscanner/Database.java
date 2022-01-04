@@ -3,8 +3,10 @@ package com.example.foodscanner;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -41,7 +43,7 @@ public class Database extends SQLiteOpenHelper {
                 SODIUM + " DOUBLE)";
         db.execSQL(createTableHistory);
 
-        String createTableFav = "CREATE TABLE " + TABLE_FAV + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String createTableFav = "CREATE TABLE " + TABLE_FAV + " (ID INTEGER PRIMARY KEY, " +
                 NAME + " TEXT, " +
                 IMAGE_URL + " TEXT, "+
                 SUGAR + " DOUBLE, "+
@@ -64,42 +66,53 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean addProductHistory(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(NAME, product.getName());
-        contentValues.put(IMAGE_URL, product.getImageUrl());
-        contentValues.put(SUGAR, product.getSugar());
-        contentValues.put(CARBS, product.getCarbs());
-        contentValues.put(FAT, product.getFat());
-        contentValues.put(SALT, product.getSalt());
-        contentValues.put(ENERGY, product.getEnergy());
-        contentValues.put(SODIUM, product.getSodium());
+        if (!checkIfProductExists(product.getId(), TABLE_HISTORY, db)) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ID, product.getId());
+            contentValues.put(NAME, product.getName());
+            contentValues.put(IMAGE_URL, product.getImageUrl());
+            contentValues.put(SUGAR, product.getSugar());
+            contentValues.put(CARBS, product.getCarbs());
+            contentValues.put(FAT, product.getFat());
+            contentValues.put(SALT, product.getSalt());
+            contentValues.put(ENERGY, product.getEnergy());
+            contentValues.put(SODIUM, product.getSodium());
 
-        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
-        long result = db.insert(TABLE_HISTORY, null, contentValues);
-        if (result == -1) {
-            return false;
+
+            Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
+            long result = db.insert(TABLE_HISTORY, null, contentValues);
+            db.close();
+            if (result == -1) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean addProductFav(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(NAME, product.getName());
-        contentValues.put(IMAGE_URL, product.getImageUrl());
-        contentValues.put(SUGAR, product.getSugar());
-        contentValues.put(CARBS, product.getCarbs());
-        contentValues.put(FAT, product.getFat());
-        contentValues.put(SALT, product.getSalt());
-        contentValues.put(ENERGY, product.getEnergy());
-        contentValues.put(SODIUM, product.getSodium());
 
-        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
-        long result = db.insert(TABLE_FAV, null, contentValues);
-        if (result == -1) {
-            return false;
+        if (!checkIfProductExists(product.getId(), TABLE_FAV, db)) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NAME, product.getName());
+            contentValues.put(IMAGE_URL, product.getImageUrl());
+            contentValues.put(SUGAR, product.getSugar());
+            contentValues.put(CARBS, product.getCarbs());
+            contentValues.put(FAT, product.getFat());
+            contentValues.put(SALT, product.getSalt());
+            contentValues.put(ENERGY, product.getEnergy());
+            contentValues.put(SODIUM, product.getSodium());
+
+            Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
+            long result = db.insert(TABLE_FAV, null, contentValues);
+            db.close();
+            if (result == -1) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Cursor getProductsHistory() {
@@ -112,5 +125,23 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_FAV, null);
         return data;
+    }
+
+    public void removeProduct(String table, Product p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        System.out.println("the id to remove " + p.getId());
+        String query = "DELETE FROM " + table + " WHERE ID = " + p.getId() + ";";
+        db.execSQL(query);
+    }
+
+    public boolean checkIfProductExists(int id, String table, SQLiteDatabase data) {
+        String query = "SELECT ID FROM " + table + " WHERE ID = '" + id + "';";
+        SQLiteStatement result = data.compileStatement(query);
+        try {
+            result.simpleQueryForString();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -25,6 +25,9 @@ public class Database extends SQLiteOpenHelper {
     private static String SALT = "SALT";
     private static String ENERGY = "ENERGY";
     private static String SODIUM = "SODIUM";
+    private static String FATL = "FATL";
+    private static String SALTL = "SALTL";
+    private static String SUGARL = "SUGARL";
 
     public Database(@Nullable Context context) {
         super(context, TABLE_HISTORY, null, 1);
@@ -43,7 +46,7 @@ public class Database extends SQLiteOpenHelper {
                 SODIUM + " DOUBLE)";
         db.execSQL(createTableHistory);
 
-        String createTableFav = "CREATE TABLE " + TABLE_FAV + " (ID INTEGER PRIMARY KEY, " +
+        String createTableFav = "CREATE TABLE " + TABLE_FAV + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NAME + " TEXT, " +
                 IMAGE_URL + " TEXT, "+
                 SUGAR + " DOUBLE, "+
@@ -66,53 +69,48 @@ public class Database extends SQLiteOpenHelper {
 
     public boolean addProductHistory(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
-        if (!checkIfProductExists(product.getId(), TABLE_HISTORY, db)) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(ID, product.getId());
-            contentValues.put(NAME, product.getName());
-            contentValues.put(IMAGE_URL, product.getImageUrl());
-            contentValues.put(SUGAR, product.getSugar());
-            contentValues.put(CARBS, product.getCarbs());
-            contentValues.put(FAT, product.getFat());
-            contentValues.put(SALT, product.getSalt());
-            contentValues.put(ENERGY, product.getEnergy());
-            contentValues.put(SODIUM, product.getSodium());
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, product.getName());
+        contentValues.put(IMAGE_URL, product.getImageUrl());
+        contentValues.put(SUGAR, product.getSugar());
+        contentValues.put(CARBS, product.getCarbs());
+        contentValues.put(FAT, product.getFat());
+        contentValues.put(SALT, product.getSalt());
+        contentValues.put(ENERGY, product.getEnergy());
+        contentValues.put(SODIUM, product.getSodium());
+        contentValues.put(FATL, product.getFatL());
+        contentValues.put(SALTL, product.getSaltL());
+        contentValues.put(SUGARL, product.getSugarsL());
 
-
-            Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
-            long result = db.insert(TABLE_HISTORY, null, contentValues);
-            db.close();
-            if (result == -1) {
-                return false;
-            }
-            return true;
+        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
+        long result = db.insert(TABLE_HISTORY, null, contentValues);
+        if (result == -1) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public boolean addProductFav(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NAME, product.getName());
+        contentValues.put(IMAGE_URL, product.getImageUrl());
+        contentValues.put(SUGAR, product.getSugar());
+        contentValues.put(CARBS, product.getCarbs());
+        contentValues.put(FAT, product.getFat());
+        contentValues.put(SALT, product.getSalt());
+        contentValues.put(ENERGY, product.getEnergy());
+        contentValues.put(SODIUM, product.getSodium());
+        contentValues.put(FATL, product.getFatL());
+        contentValues.put(SALTL, product.getSaltL());
+        contentValues.put(SUGARL, product.getSugarsL());
 
-        if (!checkIfProductExists(product.getId(), TABLE_FAV, db)) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(NAME, product.getName());
-            contentValues.put(IMAGE_URL, product.getImageUrl());
-            contentValues.put(SUGAR, product.getSugar());
-            contentValues.put(CARBS, product.getCarbs());
-            contentValues.put(FAT, product.getFat());
-            contentValues.put(SALT, product.getSalt());
-            contentValues.put(ENERGY, product.getEnergy());
-            contentValues.put(SODIUM, product.getSodium());
-
-            Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
-            long result = db.insert(TABLE_FAV, null, contentValues);
-            db.close();
-            if (result == -1) {
-                return false;
-            }
-            return true;
+        Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
+        long result = db.insert(TABLE_FAV, null, contentValues);
+        if (result == -1) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public Cursor getProductsHistory() {

@@ -2,23 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dip"
+    android:layout_marginRight="20dip"
+    android:gravity="center"
+    android:background="@drawable/popup"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="158dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="10dp"
         android:text="Saved Items"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
 
     <ImageButton
         android:id="@+id/close"
@@ -26,19 +28,19 @@
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="2dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="269dp" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/popup"
         android:id="@+id/favorites"
-        android:layout_width="386dp"
+        android:layout_width="match_parent"
         android:layout_height="344dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+         />
 
 </RelativeLayout>

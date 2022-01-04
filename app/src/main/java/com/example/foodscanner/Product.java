@@ -29,6 +29,10 @@ public class Product {
     private double energy = -1;
     private double sodium = -1;
 
+    private String fatL = "";
+    private String saltL = "";
+    private String sugarsL = "";
+
     public Product(String jsonLink) {
         //initialize the product automatically based on the url to the json
         JsonObject rootJson = new JsonObject();
@@ -70,6 +74,11 @@ public class Product {
         if (nutrients.has("salt")) {salt = nutrients.get("salt").getAsDouble();}
         if (nutrients.has("energy")) {energy = nutrients.get("energy").getAsDouble();}
         if (nutrients.has("sodium")) {sodium = nutrients.get("sodium").getAsDouble();}
+
+        JsonObject levels = productJson.getAsJsonObject("nutrient_levels");
+        if (levels.has("fat")) {fatL = levels.get("fat").getAsString();}
+        if (levels.has("salt")) {saltL= levels.get("salt").getAsString();}
+        if (levels.has("sugars")) {sugarsL = levels.get("sugars").getAsString();}
 
     }
 
@@ -185,5 +194,34 @@ public class Product {
         this.sodium = sodium;
     }
 
+    public String getFatL() {
+        if(fatL.equalsIgnoreCase("low")){
+            return "#F841A842";
+        }else if(fatL.equalsIgnoreCase("moderate")){
+            return "#";
+        }else if(fatL.equalsIgnoreCase("high")){
+            return"#F8EF5A5A";
+        }else{return "#FFFFFFFF"; }
+    }
 
+    public String getSaltL() {
+        if(saltL.equalsIgnoreCase("low")){
+            return "#F841A842";
+        }else if(saltL.equalsIgnoreCase("moderate")){
+            return "#FF6C692B";
+        }else if(saltL.equalsIgnoreCase("high")){
+            return"#F8EF5A5A";
+        }else{return "#FFFFFFFF"; }
+
+    }
+
+    public String getSugarsL() {
+        if(sugarsL.equalsIgnoreCase("low")){
+            return "#F841A842";
+        }else if(sugarsL.equalsIgnoreCase("moderate")){
+            return "#FF6C692B";
+        }else if(sugarsL.equalsIgnoreCase("high")){
+            return"#F8EF5A5A";
+        }else{return "#FFFFFFFF"; }
+    }
 }

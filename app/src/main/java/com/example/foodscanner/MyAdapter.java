@@ -2,6 +2,7 @@ package com.example.foodscanner;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +53,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.myText1.setText("SUGAR: " + products.get(position).getSugar() + "g");
+        //CHANGE THE BACKGROUND ACORDING  TO THE HEALTHINESS
+        holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsL()));
         holder.myText2.setText("CARBS: " + products.get(position).getCarbs() + "g");
         holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
+        holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatL()));
         holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
+        holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltL()));
         holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
         holder.myText6.setText("SODIUM" + products.get(position).getSodium() + "g");
         if (isButton) {

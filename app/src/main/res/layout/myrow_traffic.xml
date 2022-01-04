@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:background="#6C692B">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -33,6 +34,7 @@
                 android:layout_height="17dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="100dp"
+                android:background="#F8E4F447"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,6 +88,17 @@
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="172dp">
+
+            </com.google.android.material.chip.ChipGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

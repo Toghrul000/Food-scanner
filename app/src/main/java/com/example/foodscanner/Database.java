@@ -23,6 +23,9 @@ public class Database extends SQLiteOpenHelper {
     private static String SALT = "SALT";
     private static String ENERGY = "ENERGY";
     private static String SODIUM = "SODIUM";
+    private static String FATL = "FATL";
+    private static String SALTL = "SALTL";
+    private static String SUGARL = "SUGARL";
 
     public Database(@Nullable Context context) {
         super(context, TABLE_HISTORY, null, 1);
@@ -73,6 +76,9 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(SALT, product.getSalt());
         contentValues.put(ENERGY, product.getEnergy());
         contentValues.put(SODIUM, product.getSodium());
+        contentValues.put(FATL, product.getFatL());
+        contentValues.put(SALTL, product.getSaltL());
+        contentValues.put(SUGARL, product.getSugarsL());
 
         Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_HISTORY);
         long result = db.insert(TABLE_HISTORY, null, contentValues);
@@ -93,6 +99,9 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(SALT, product.getSalt());
         contentValues.put(ENERGY, product.getEnergy());
         contentValues.put(SODIUM, product.getSodium());
+        contentValues.put(FATL, product.getFatL());
+        contentValues.put(SALTL, product.getSaltL());
+        contentValues.put(SUGARL, product.getSugarsL());
 
         Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);
         long result = db.insert(TABLE_FAV, null, contentValues);

@@ -72,7 +72,7 @@ public class HomePage extends AppCompatActivity {
             product.setHealthiness(data.getString(13));
             list.add(product);
         }
-        MyAdapter myAdapter = new MyAdapter(HomePage.this, list, false);
+        MyAdapter myAdapter = new MyAdapter(HomePage.this, list, true);
         history.setAdapter(myAdapter);
         history.setLayoutManager(new LinearLayoutManager(this));
     }

@@ -3,8 +3,10 @@ package com.example.foodscanner;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -132,5 +134,23 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_FAV, null);
         return data;
+    }
+
+    public void removeProduct(String table, Product p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        System.out.println("the id to remove " + p.getId());
+        String query = "DELETE FROM " + table + " WHERE ID = " + p.getId() + ";";
+        db.execSQL(query);
+    }
+
+    public boolean checkIfProductExists(int id, String table, SQLiteDatabase data) {
+        String query = "SELECT ID FROM " + table + " WHERE ID = '" + id + "';";
+        SQLiteStatement result = data.compileStatement(query);
+        try {
+            result.simpleQueryForString();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

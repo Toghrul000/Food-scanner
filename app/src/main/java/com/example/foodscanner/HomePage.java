@@ -73,7 +73,8 @@ public class HomePage extends AppCompatActivity {
             product.setHealthiness(data.getString(13));
             list.add(product);
         }
-        MyAdapter myAdapter = new MyAdapter(HomePage.this, list, true);
+        MyAdapter myAdapter = new MyAdapter(HomePage.this, list ,true);
+        myAdapter.setTableName("Products");
         history.setAdapter(myAdapter);
         history.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -90,7 +91,8 @@ public class HomePage extends AppCompatActivity {
             product.setHealthiness(data.getString(13));
             list.add(product);
         }
-        MyAdapter myAdapter = new MyAdapter(this, list, true);
+        MyAdapter myAdapter = new MyAdapter(this, list,true);
+        myAdapter.setTableName("Favorites");
         favorites.setAdapter(myAdapter);
         favorites.setLayoutManager(new LinearLayoutManager(this));
     }

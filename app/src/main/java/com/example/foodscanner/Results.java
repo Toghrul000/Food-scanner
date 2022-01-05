@@ -191,7 +191,7 @@ public class Results extends AppCompatActivity {
 
 
 
-            MyAdapter myAdapter = new MyAdapter(Results.this, products, true);
+            MyAdapter myAdapter = new MyAdapter(Results.this, products,true);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
 
@@ -334,7 +334,7 @@ public class Results extends AppCompatActivity {
                 pDialog.dismiss();
 
 
-            MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList, true);
+            MyAdapter myAdapter2 = new MyAdapter(Results.this, productsList,true);
             recyclerView2.setAdapter(myAdapter2);
             recyclerView2.setLayoutManager(new LinearLayoutManager(Results.this));
 

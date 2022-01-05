@@ -92,9 +92,9 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(ENERGY, product.getEnergy());
             contentValues.put(SODIUM, product.getSodium());
             contentValues.put(PROTEIN, product.getProteins());
-//            contentValues.put(FATL, product.getFatL());
-//            contentValues.put(SALTL, product.getSaltL());
-//            contentValues.put(SUGARL, product.getSugarsL());
+            contentValues.put(FATL, product.getFatL());
+            contentValues.put(SALTL, product.getSaltL());
+            contentValues.put(SUGARL, product.getSugarsL());
             contentValues.put(HEALTHINESS, product.getHealthiness());
 
 
@@ -124,9 +124,9 @@ public class Database extends SQLiteOpenHelper {
             contentValues.put(ENERGY, product.getEnergy());
             contentValues.put(SODIUM, product.getSodium());
             contentValues.put(PROTEIN, product.getProteins());
-//            contentValues.put(FATL, product.getFatL());
-//            contentValues.put(SALTL, product.getSaltL());
-//            contentValues.put(SUGARL, product.getSugarsL());
+            contentValues.put(FATL, product.getFatL());
+            contentValues.put(SALTL, product.getSaltL());
+            contentValues.put(SUGARL, product.getSugarsL());
             contentValues.put(HEALTHINESS, product.getHealthiness());
 
             Log.d(TAG, "addProduct: Adding " + product.getImageUrl() + " to " + TABLE_FAV);

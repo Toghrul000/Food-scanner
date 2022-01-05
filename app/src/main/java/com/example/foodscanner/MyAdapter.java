@@ -55,9 +55,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.myText1.setText("SUGAR: " + products.get(position).getSugar() + "g");
+        holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
         holder.myText2.setText("CARBS: " + products.get(position).getCarbs() + "g");
         holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
+        holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
         holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
+        holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
         holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
         holder.myText6.setText("SODIUM: " + products.get(position).getSodium() + "g");
         holder.myText7.setText("Protein: " + products.get(position).getProteins() + "g");

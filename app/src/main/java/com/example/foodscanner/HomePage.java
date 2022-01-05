@@ -69,7 +69,8 @@ public class HomePage extends AppCompatActivity {
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
-                    data.getDouble(6), data.getDouble(7), data.getDouble(8));
+                    data.getDouble(6), data.getDouble(7), data.getDouble(8),
+                    data.getString(9),data.getString(10),data.getString(11));
             product.setId(data.getInt(0));
             list.add(product);
         }
@@ -84,7 +85,8 @@ public class HomePage extends AppCompatActivity {
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
-                    data.getDouble(6), data.getDouble(7), data.getDouble(8));
+                    data.getDouble(6), data.getDouble(7), data.getDouble(8),
+                    data.getString(9),data.getString(10),data.getString(11));
             product.setId(data.getInt(0));
             list.add(product);
         }
@@ -99,6 +101,7 @@ public class HomePage extends AppCompatActivity {
         close = popupView.findViewById(R.id.close);
         favorites =  popupView.findViewById(R.id.favorites);
         dialogBuilder.setView(popupView);
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog = dialogBuilder.create();
         dialog.show();
         showProductsFav();

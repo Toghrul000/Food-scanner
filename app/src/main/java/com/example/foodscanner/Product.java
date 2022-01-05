@@ -67,11 +67,9 @@ public class Product {
         this.proteins = proteins;
     }
 
-
-
-    private String fatL = "";
-    private String saltL = "";
-    private String sugarsL = "";
+    private String fatL = "#00E4F447";
+    private String saltL = "#00E4F447";
+    private String sugarsL = "#00E4F447";
 
     public Product(String jsonLink) {
         //initialize the product automatically based on the url to the json
@@ -126,7 +124,7 @@ public class Product {
 
     }
 
-    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium) {
+    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium, String fatL,String saltL, String sugarsL) {
         //initialize product manually
         this.name = name;
         this.imageUrl = imageUrl;
@@ -136,6 +134,9 @@ public class Product {
         this.salt = salt;
         this.energy = energy;
         this.sodium = sodium;
+        this.fatL = fatL;
+        this.saltL = saltL;
+        this.sugarsL = sugarsL;
     }
 
     public JsonArray getCategories() {
@@ -174,6 +175,11 @@ public class Product {
 
         categories = productJson.getAsJsonArray("categories_hierarchy");
         keywords = productJson.getAsJsonArray("_keywords");
+
+        JsonObject levels = productJson.getAsJsonObject("nutrient_levels");
+        if (levels.has("fat")) {fatL = levels.get("fat").getAsString();}
+        if (levels.has("salt")) {saltL= levels.get("salt").getAsString();}
+        if (levels.has("sugars")) {sugarsL = levels.get("sugars").getAsString();}
 
     }
 
@@ -241,34 +247,40 @@ public class Product {
         this.sodium = sodium;
     }
 
-    public String getFatL() {
+    public String getFatL() { return fatL; }
+
+    public String getSaltL() { return saltL; }
+
+    public String getSugarsL() { return sugarsL; }
+
+    public String getFatColor() {
         if(fatL.equalsIgnoreCase("low")){
             return "#F841A842";
         }else if(fatL.equalsIgnoreCase("moderate")){
-            return "#";
+            return "#F8E4F447";
         }else if(fatL.equalsIgnoreCase("high")){
-            return"#F8EF5A5A";
-        }else{return "#FFFFFFFF"; }
+            return"#F8E4F447";
+        }else{return fatL; }
     }
 
-    public String getSaltL() {
+    public String getSaltColor() {
         if(saltL.equalsIgnoreCase("low")){
             return "#F841A842";
         }else if(saltL.equalsIgnoreCase("moderate")){
-            return "#FF6C692B";
+            return "#F8E4F447";
         }else if(saltL.equalsIgnoreCase("high")){
             return"#F8EF5A5A";
-        }else{return "#FFFFFFFF"; }
+        }else{return saltL; }
 
     }
 
-    public String getSugarsL() {
+    public String getSugarsColor() {
         if(sugarsL.equalsIgnoreCase("low")){
             return "#F841A842";
         }else if(sugarsL.equalsIgnoreCase("moderate")){
-            return "#FF6C692B";
+            return "#F8E4F447";
         }else if(sugarsL.equalsIgnoreCase("high")){
             return"#F8EF5A5A";
-        }else{return "#FFFFFFFF"; }
+        }else{return sugarsL; }
     }
 }

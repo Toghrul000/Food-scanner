@@ -55,12 +55,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.myText1.setText("SUGAR: " + products.get(position).getSugar() + "g");
         //CHANGE THE BACKGROUND ACORDING  TO THE HEALTHINESS
-        holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsL()));
+        if(products.get(position).getSugarsColor()!= ""){
+            holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
+        }
+        //holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
         holder.myText2.setText("CARBS: " + products.get(position).getCarbs() + "g");
         holder.myText3.setText("FAT: " + products.get(position).getFat() + "g");
-        holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatL()));
+        if(products.get(position).getFatColor()!=""){
+            holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
+        }
+        //holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
         holder.myText4.setText("SALT: " + products.get(position).getSalt() + "g");
-        holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltL()));
+        if(products.get(position).getSaltColor()!=""){
+            holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
+        }
+        //holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
         holder.myText5.setText("ENERGY: " + products.get(position).getEnergy() + "kJ");
         holder.myText6.setText("SODIUM: " + products.get(position).getSodium() + "g");
         holder.myText7.setText("Protein: " + products.get(position).getProteins() + "g");
@@ -97,6 +106,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private void saveProduct(int pos) {
         database.addProductFav(products.get(pos));
     }
+
     public void removeItem(int p){
         products.remove(p);
         notifyItemRemoved(p);

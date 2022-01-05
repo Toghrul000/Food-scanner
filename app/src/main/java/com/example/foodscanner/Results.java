@@ -87,7 +87,6 @@ public class Results extends AppCompatActivity {
         history = findViewById(R.id.history);
 
 
-
         new GetJSONTask().execute(url);
 
 
@@ -190,8 +189,6 @@ public class Results extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(Results.this));
 
 
-
-
             for (int i = 0; i < products.get(0).getCategories().size(); i++) {
                 if(products.get(0).getCategories().get(i).getAsString().equals("en:breads")){
                     new GetRelated().execute(breadUrls[0], breadUrls[1], breadUrls[2],
@@ -218,9 +215,6 @@ public class Results extends AppCompatActivity {
 
         }
     }
-
-
-
 
 
 

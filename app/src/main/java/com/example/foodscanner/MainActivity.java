@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(){
         Intent intent = new Intent(this, Results.class);
-        intent.putExtra(barcode, barcode);
+
+        intent.putExtra("Pbarcode", barcode);
+//        intent.putExtra(barcode, barcode);
         startActivity(intent);
     }
 

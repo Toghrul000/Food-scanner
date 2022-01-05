@@ -61,6 +61,8 @@ public class Results extends AppCompatActivity {
 
     String barcode;
 
+    FoodClassifier foodClassifier = null;
+
 
 
 
@@ -74,7 +76,8 @@ public class Results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.result);
         Intent intent = getIntent();
-        barcode = intent.getStringExtra(MainActivity.barcode);
+//        barcode = intent.getStringExtra(MainActivity.barcode);
+        barcode = intent.getExtras().getString("Pbarcode");
         url = "https://world.openfoodfacts.org/api/v0/product/"+ barcode + ".json";
 
         search = findViewById(R.id.scanA);
@@ -85,7 +88,11 @@ public class Results extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView1);
         recyclerView2 = findViewById(R.id.recyclerView2);
         history = findViewById(R.id.history);
-
+        try {
+            foodClassifier = new FoodClassifier(Results.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         new GetJSONTask().execute(url);
@@ -129,7 +136,7 @@ public class Results extends AppCompatActivity {
         @Override
         protected Product doInBackground(String... urls) {
             Product product = new Product(urls[0]);
-            product.setId(Integer.valueOf(barcode));
+//            product.setId(Integer.valueOf(barcode));
             return product;
         }
 
@@ -151,14 +158,14 @@ public class Results extends AppCompatActivity {
 
         protected void onPostExecute(Product product) {
 
-            FoodClassifier foodClassifier = null;
+            String[] details = new String[2];
+
 
             try {
-                foodClassifier = new FoodClassifier(Results.this);
-                Log.d("MACHINEEEEEE: ", foodClassifier.predictHealthiness(product));
+                details = foodClassifier.predictHealthiness(product);
+                product.setHealthiness(details[1]);
 
             } catch (Exception e) {
-                Log.d("ERRORRRRRRRR: ", "WE HAVE EXCEPTION");
                 e.printStackTrace();
             }
 
@@ -170,7 +177,7 @@ public class Results extends AppCompatActivity {
 
 
 
-//            textView.setText(product.getName());
+            textView.setText(product.getName());
 
 
             products = new ArrayList<>();
@@ -190,28 +197,48 @@ public class Results extends AppCompatActivity {
 
 
 
+            try {
 
-            for (int i = 0; i < products.get(0).getCategories().size(); i++) {
-                if(products.get(0).getCategories().get(i).getAsString().equals("en:breads")){
-                    new GetRelated().execute(breadUrls[0], breadUrls[1], breadUrls[2],
-                            breadUrls[3], breadUrls[4], breadUrls[5], breadUrls[6], breadUrls[7], breadUrls[8]);
-
-                    break;
-
-                } else if (products.get(0).getCategories().get(i).getAsString().equals("en:sodas")){
-                    new GetRelated().execute(sodaUrls[0], sodaUrls[1], sodaUrls[2]);
-
-                    break;
-
-                } else if(products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-their-products") ||
-                        products.get(0).getCategories().get(i).getAsString().equals("en:breakfast-cereals")){
-
-                    new GetRelated().execute(cerealUrls[0], cerealUrls[1], cerealUrls[2], cerealUrls[3], cerealUrls[4], cerealUrls[5]);
-                    break;
-
-                }
-
+                product.setFoodType(details[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            String categorie = product.getFoodType();
+
+
+            if(categorie.equals("Bread")){
+                new GetRelated().execute(breadUrls[0], breadUrls[1], breadUrls[2],
+                        breadUrls[3], breadUrls[4], breadUrls[5], breadUrls[6], breadUrls[7], breadUrls[8]);
+
+            } else if(categorie.equals("Softdrink")){
+                new GetRelated().execute(sodaUrls[0], sodaUrls[1], sodaUrls[2]);
+
+            } else if(categorie.equals("Cereals")){
+                new GetRelated().execute(cerealUrls[0], cerealUrls[1], cerealUrls[2], cerealUrls[3], cerealUrls[4], cerealUrls[5]);
+            }
+
+
+//            for (int i = 0; i < products.get(0).getCategories().size(); i++) {
+//                if(products.get(0).getCategories().get(i).getAsString().equals("en:breads")){
+//                    new GetRelated().execute(breadUrls[0], breadUrls[1], breadUrls[2],
+//                            breadUrls[3], breadUrls[4], breadUrls[5], breadUrls[6], breadUrls[7], breadUrls[8]);
+//
+//                    break;
+//
+//                } else if (products.get(0).getCategories().get(i).getAsString().equals("en:sodas")){
+//                    new GetRelated().execute(sodaUrls[0], sodaUrls[1], sodaUrls[2]);
+//
+//                    break;
+//
+//                } else if(products.get(0).getCategories().get(i).getAsString().equals("en:cereals-and-their-products") ||
+//                        products.get(0).getCategories().get(i).getAsString().equals("en:breakfast-cereals")){
+//
+//                    new GetRelated().execute(cerealUrls[0], cerealUrls[1], cerealUrls[2], cerealUrls[3], cerealUrls[4], cerealUrls[5]);
+//                    break;
+//
+//                }
+//
+//            }
 
 
 
@@ -239,16 +266,27 @@ public class Results extends AppCompatActivity {
             JsonArray productsJson = rootJson.getAsJsonArray("products");
             for (int i = 0; i < productsJson.size(); i++) {
                 Product p = new Product(productsJson.get(i).getAsJsonObject());
-                if(p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1
+                if(p.getId() == -1 || p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1
                         || p.getSodium() == -1 || p.getProteins() == -1 || p.getFiber() == -1 || p.getSaturatedFat() == -1
                         || p.getImageUrl().equals("no") || p.getName().equals("noname")){
 
                 }else {
 
                     //CHANGE TO HEALTHY
-                    if(products.get(0).getSugar() > p.getSugar() && products.get(0).getCarbs() > p.getCarbs()){
+                    try {
+                        p.setHealthiness(foodClassifier.predictHealthiness(p)[1]);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                    if(p.getHealthiness().equals("Healthy") || p.getHealthiness().equals("Neutral")){
                         relatedProducts.add(p);
                     }
+
+//                    if(products.get(0).getSugar() > p.getSugar() && products.get(0).getCarbs() > p.getCarbs()){
+//                        relatedProducts.add(p);
+//                    }
                 }
             }
         }

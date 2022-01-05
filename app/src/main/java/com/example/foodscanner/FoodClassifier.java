@@ -1,21 +1,24 @@
 package com.example.foodscanner;
 
+
 import android.content.Context;
 
 import com.example.foodscanner.Product;
+
+
 import weka.classifiers.bayes.NaiveBayes;
 import weka.core.*;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FoodClassifier {
-
 
     String[] types = {"Bread","Softdrink","Cereals"};
     String[] classes = {"Unhealthy","Neutral","Healthy"};
@@ -38,11 +41,13 @@ public class FoodClassifier {
     int classIndex2;
 
 
+
     public FoodClassifier(Context context) throws Exception {
         trainModels(context);
     }
 
-    public String predictFoodType(com.example.foodscanner.Product product) throws Exception {
+    public String[] predictHealthiness(Product product) throws Exception {
+
         //Predict food type
         Instances testingSet1 = new Instances("Testing Set",foodTypeAttributes,1);
 
@@ -65,16 +70,11 @@ public class FoodClassifier {
         double myValue = foodtypeClassifier.classifyInstance(unlabeled);
         String predictedFoodType = testingSet1.classAttribute().value((int) myValue);
 
-        System.out.println("Predicted Food type: " + predictedFoodType);
-        return predictedFoodType;
-    }
 
 
-    public String predictHealthiness(com.example.foodscanner.Product product) throws Exception {
         //Predict healthiness
         Instances testingSet2 = new Instances("Testing Set",healthinessAttributes,1);
 
-        String predictedFoodType = predictFoodType(product);
         DenseInstance productInstance2 = new DenseInstance(8);
         productInstance2.setValue(type, predictedFoodType);
         productInstance2.setValue(carbs, product.getCarbs());
@@ -88,11 +88,12 @@ public class FoodClassifier {
         testingSet2.add(productInstance2);
         testingSet2.setClassIndex(classIndex2);
 
-        Instance unlabeled = testingSet2.instance(0);
-        double myValue = healthinessClassifier.classifyInstance(unlabeled);
+        unlabeled = testingSet2.instance(0);
+        myValue = healthinessClassifier.classifyInstance(unlabeled);
         String predictedHealthiness = testingSet2.classAttribute().value((int) myValue);
+        System.out.println("Predicted Food type: " + predictedFoodType);
         System.out.println("Predicted healthiness: " + predictedHealthiness);
-        return predictedHealthiness;
+        return new String[]{predictedFoodType, predictedHealthiness};
     }
 
     private void trainModels(Context context) throws Exception {

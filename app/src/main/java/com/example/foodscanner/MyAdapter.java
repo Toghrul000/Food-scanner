@@ -2,6 +2,8 @@ package com.example.foodscanner;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.myText7.setText("Protein: " + products.get(position).getProteins() + "g");
 
         //holder.myText8  HEALHINESSS
+        holder.myText8.setText("HEALTH: " + products.get(position).getHealthiness());
+
+        if (products.get(position).getHealthiness().equals("Unhealthy")){
+            holder.myText8.setTextColor(Color.RED);
+
+        } else if (products.get(position).getHealthiness().equals("Healthy")){
+            holder.myText8.setTextColor(Color.GREEN);
+
+        } else if (products.get(position).getHealthiness().equals("Neutral")){
+            holder.myText8.setTextColor(Color.YELLOW);
+
+        }
+
         holder.myText9.setText("NAME:" + products.get(position).getName());
+
+        int pos = position;
+
+        holder.reDirectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Results.class);
+
+                intent.putExtra("Pbarcode", products.get(pos).getId());
+                context.startActivity(intent);
+
+            }
+        });
 
         if (isButton) {
             int p = position;
@@ -109,6 +137,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView myText1, myText2, myText3, myText4, myText5, myText6, myText7, myText8, myText9;
         ImageView myImage;
         Button button;
+        Button reDirectButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,8 +150,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             myText5 = itemView.findViewById(R.id.myText5);
             myText6 = itemView.findViewById(R.id.myText6);
             myText7 = itemView.findViewById(R.id.myText7);
-            // HEALHINESS myText8
+            myText8 = itemView.findViewById(R.id.myText8);
             myImage = itemView.findViewById(R.id.imageView2);
+            reDirectButton = itemView.findViewById(R.id.buttonRe);
+
+
             if (isButton) {
                 button = itemView.findViewById(R.id.buttonSave);
                 if (context.getClass().toString().equals(HomePage.class.toString())) {

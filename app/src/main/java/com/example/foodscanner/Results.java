@@ -266,7 +266,7 @@ public class Results extends AppCompatActivity {
             JsonArray productsJson = rootJson.getAsJsonArray("products");
             for (int i = 0; i < productsJson.size(); i++) {
                 Product p = new Product(productsJson.get(i).getAsJsonObject());
-                if(p.getId() == -1 || p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1
+                if(p.getId().equals("noid") || p.getSugar() == -1 || p.getCarbs() == -1 || p.getEnergy() == -1 || p.getFat() == -1 || p.getSalt() == -1
                         || p.getSodium() == -1 || p.getProteins() == -1 || p.getFiber() == -1 || p.getSaturatedFat() == -1
                         || p.getImageUrl().equals("no") || p.getName().equals("noname")){
 

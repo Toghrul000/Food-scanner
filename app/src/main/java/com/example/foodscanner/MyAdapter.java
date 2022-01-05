@@ -78,21 +78,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         holder.myText9.setText("NAME:" + products.get(position).getName());
 
-        int pos = position;
 
-        holder.reDirectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Results.class);
-
-                intent.putExtra("Pbarcode", products.get(pos).getId());
-                context.startActivity(intent);
-
-            }
-        });
 
         if (isButton) {
             int p = position;
+            holder.reDirectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, Results.class);
+                    intent.putExtra("Pbarcode", products.get(p).getId());
+                    context.startActivity(intent);
+
+                }
+            });
+
+
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

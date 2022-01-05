@@ -50,15 +50,16 @@ public class Product {
 
     private String healthiness = "no data";
 
-    public int getId() {
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    private int id = -1;
+    private String id = "noid";
 
     public double getFiber() {
         return fiber;
@@ -125,7 +126,8 @@ public class Product {
 
         JsonObject nutrients = productJson.getAsJsonObject("nutriments");
         if(productJson.has("code")){
-            id = productJson.get("code").getAsInt();
+            id = productJson.get("code").getAsString();
+
         }
         if (nutrients.has("carbohydrates")) {carbs = nutrients.get("carbohydrates").getAsDouble();}
         if (nutrients.has("sugars")) {sugar = nutrients.get("sugars").getAsDouble();}
@@ -140,7 +142,7 @@ public class Product {
 
     }
 
-    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium) {
+    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium, double proteins) {
         //initialize product manually
         this.name = name;
         this.imageUrl = imageUrl;
@@ -150,6 +152,7 @@ public class Product {
         this.salt = salt;
         this.energy = energy;
         this.sodium = sodium;
+        this.proteins = proteins;
     }
 
     public JsonArray getCategories() {
@@ -170,7 +173,8 @@ public class Product {
 
     public Product(JsonObject productJson){
         if(productJson.has("code")){
-            id = productJson.get("code").getAsInt();
+            id = productJson.get("code").getAsString();
+
         }
         if(productJson.has("product_name")){
             name = productJson.get("product_name").getAsString();

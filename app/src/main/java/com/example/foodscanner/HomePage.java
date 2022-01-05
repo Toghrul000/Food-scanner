@@ -67,8 +67,9 @@ public class HomePage extends AppCompatActivity {
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
-                    data.getDouble(6), data.getDouble(7), data.getDouble(8));
-            product.setId(data.getInt(0));
+                    data.getDouble(6), data.getDouble(7), data.getDouble(8), data.getDouble(9));
+            product.setId(data.getString(0));
+            product.setHealthiness(data.getString(13));
             list.add(product);
         }
         MyAdapter myAdapter = new MyAdapter(HomePage.this, list, false);
@@ -82,8 +83,9 @@ public class HomePage extends AppCompatActivity {
         while (data.moveToNext()) {
             Product product = new Product(data.getString(1), data.getString(2),
                     data.getDouble(3), data.getDouble(4), data.getDouble(5),
-                    data.getDouble(6), data.getDouble(7), data.getDouble(8));
-            product.setId(data.getInt(0));
+                    data.getDouble(6), data.getDouble(7), data.getDouble(8), data.getDouble(9));
+            product.setId(data.getString(0));
+            product.setHealthiness(data.getString(13));
             list.add(product);
         }
         MyAdapter myAdapter = new MyAdapter(this, list, true);

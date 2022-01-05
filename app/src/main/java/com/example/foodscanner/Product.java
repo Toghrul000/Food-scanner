@@ -124,7 +124,7 @@ public class Product {
 
     }
 
-    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium, String fatL,String saltL, String sugarsL) {
+    public Product(String name, String imageUrl, double sugar, double carbs, double fat, double salt, double energy, double sodium,double proteins, String fatL,String saltL, String sugarsL) {
         //initialize product manually
         this.name = name;
         this.imageUrl = imageUrl;
@@ -134,9 +134,11 @@ public class Product {
         this.salt = salt;
         this.energy = energy;
         this.sodium = sodium;
+        this.proteins = proteins;
         this.fatL = fatL;
         this.saltL = saltL;
         this.sugarsL = sugarsL;
+        this.proteins = proteins;
     }
 
     public JsonArray getCategories() {

@@ -25,17 +25,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     List<Product> products;
     Database database;
-
+    String tableName;
     Context context;
     boolean isButton;
 
     public MyAdapter(Context ct, List<Product> p, boolean isButton){
         context = ct;
         products = p;
+        this.tableName = tableName;
         this.isButton = isButton;
         database = new Database(context);
 
 
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     @NonNull
@@ -122,7 +127,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     if (holder.button.getText().equals("delete")) {
-                        database.removeProduct("Favorites", products.get(p));
+                        database.removeProduct(tableName, products.get(p));
                         removeItem(p);
 //                        System.out.println("Deleting " + p);
                         Toast.makeText(context,"Deleted", Toast.LENGTH_SHORT).show();

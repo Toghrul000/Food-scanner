@@ -273,16 +273,27 @@ public class Results extends AppCompatActivity {
                 }else {
 
                     //CHANGE TO HEALTHY
+
+                    String[] details2 = new String[2];
                     try {
-                        p.setHealthiness(foodClassifier.predictHealthiness(p)[1]);
+                        details2 = foodClassifier.predictHealthiness(p);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        p.setHealthiness(details2[1]);
+                        p.setFoodType(details2[0]);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
 
-                    if(p.getHealthiness().equals("Healthy") || p.getHealthiness().equals("Neutral")){
-                        relatedProducts.add(p);
-                    }
+                    relatedProducts.add(p);
+
+//                    if(p.getHealthiness().equals("Healthy") || p.getHealthiness().equals("Neutral")){
+//                        relatedProducts.add(p);
+//                    }
 
 //                    if(products.get(0).getSugar() > p.getSugar() && products.get(0).getCarbs() > p.getCarbs()){
 //                        relatedProducts.add(p);

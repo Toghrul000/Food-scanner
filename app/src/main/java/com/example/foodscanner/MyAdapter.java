@@ -74,14 +74,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         if(products.get(position).getFoodType().equals("Softdrink")){
             if (products.get(position).getHealthiness().equals("Unhealthy")){
                 holder.myText6.setBackgroundColor(Color.RED);
+                holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
+                holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
+                holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
 
 
             } else if (products.get(position).getHealthiness().equals("Healthy")){
                 holder.myText6.setBackgroundColor(Color.GREEN);
+                holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
+                holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
+                holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
 
 
             } else if (products.get(position).getHealthiness().equals("Neutral")){
                 holder.myText6.setBackgroundColor(Color.YELLOW);
+                holder.myText1.setBackgroundColor(Color.parseColor(products.get(position).getSugarsColor()));
+                holder.myText3.setBackgroundColor(Color.parseColor(products.get(position).getFatColor()));
+                holder.myText4.setBackgroundColor(Color.parseColor(products.get(position).getSaltColor()));
 
 
             }

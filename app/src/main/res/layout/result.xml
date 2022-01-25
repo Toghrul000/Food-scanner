@@ -21,11 +21,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView1"
-        android:layout_width="350dp"
-        android:layout_height="134dp"
+        android:layout_width="356dp"
+        android:layout_height="183dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="79dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +52,13 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="155dp"
+
+        android:fadeScrollbars="false"
+        android:scrollbarSize="15dp"
+        android:scrollbars="vertical"
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

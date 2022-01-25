@@ -3,6 +3,7 @@ package com.example.foodscanner;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +57,10 @@ public class Results extends AppCompatActivity {
     List<Product> products;
 
     List<Product> relatedProducts = new ArrayList<>();
+
+    List<Product> ProductsHealthy = new ArrayList<>();
+    List<Product> ProductsNeutral = new ArrayList<>();
+    List<Product> ProductsUnHealthy = new ArrayList<>();
 
     Database database = new Database(this);
 
@@ -258,6 +263,25 @@ public class Results extends AppCompatActivity {
             for (int i = 0; i < urls.length; i++) {
                 category(urls[i]);
             }
+
+            if (ProductsHealthy.size() != 0){
+                for(Product i: ProductsHealthy){
+                    relatedProducts.add(i);
+                }
+            }
+
+            if (ProductsNeutral.size() != 0){
+                for(Product i: ProductsNeutral){
+                    relatedProducts.add(i);
+                }
+            }
+
+            if (ProductsUnHealthy.size() != 0){
+                for(Product i: ProductsUnHealthy){
+                    relatedProducts.add(i);
+                }
+            }
+
             return relatedProducts;
         }
 
@@ -289,7 +313,20 @@ public class Results extends AppCompatActivity {
                     }
 
 
-                    relatedProducts.add(p);
+                    //SORTING by health
+                    if (p.getHealthiness().equals("Unhealthy")){
+                        ProductsUnHealthy.add(p);
+                    } else if (p.getHealthiness().equals("Healthy")){
+                        ProductsHealthy.add(p);
+                    } else if (p.getHealthiness().equals("Neutral")){
+                        ProductsNeutral.add(p);
+                    }
+
+
+
+
+
+//                    relatedProducts.add(p);
 
 //                    if(p.getHealthiness().equals("Healthy") || p.getHealthiness().equals("Neutral")){
 //                        relatedProducts.add(p);

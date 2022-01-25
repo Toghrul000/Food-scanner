@@ -39,6 +39,12 @@
         android:layout_height="344dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+
+        android:fadeScrollbars="false"
+        android:scrollbarSize="15dp"
+        android:scrollbars="vertical"
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true"/>
 
 </RelativeLayout>

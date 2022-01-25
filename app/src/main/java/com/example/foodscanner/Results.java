@@ -182,8 +182,18 @@ public class Results extends AppCompatActivity {
 
 
 
-            textView.setText(product.getName());
+//            textView.setText(product.getName());
 
+            //Big textview scanned product======
+            textView.setText(product.getHealthiness());
+            if (product.getHealthiness().equals("Unhealthy")){
+                textView.setTextColor(Color.RED);
+            } else if (product.getHealthiness().equals("Healthy")){
+                textView.setTextColor(Color.GREEN);
+            } else if (product.getHealthiness().equals("Neutral")){
+                textView.setTextColor(Color.YELLOW);
+            }
+            //===================================
 
             products = new ArrayList<>();
             if(products.size() != 0){

@@ -149,12 +149,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 }
             });
+            holder.myImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, Results.class);
+                    intent.putExtra("Pbarcode", products.get(p).getId());
+                    context.startActivity(intent);
+                }
+            });
         }
 
 
         Picasso.with(context).load(products.get(position).getImageUrl()).into(holder.myImage);
 
     }
+
 
     private void saveProduct(int pos) {
         database.addProductFav(products.get(pos));

@@ -40,15 +40,15 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="186dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="274dp"
-
         android:fadeScrollbars="false"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+
         android:scrollbarSize="15dp"
         android:scrollbars="vertical"
-        android:fastScrollEnabled="true"
-        android:fastScrollAlwaysVisible="true"/>
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="274dp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -61,14 +61,14 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="67dp"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="172dp"
+        android:layout_marginStart="162dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginEnd="141dp"
         android:text="History"
         android:textSize="20dp"
         android:textStyle="bold" />
